@@ -1,18 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 
 public class Vertex : MonoBehaviour {
-
     /// <summary>
     /// Список ребер
     /// </summary>
     [SerializeField]
-    private List<Edge> _edges;
+    private List<Edge> edges;
     public List<Edge> Edges {
-        get { return _edges; }
-        set { Edges = _edges; }
+        get { return edges; }
+        set { Edges = edges; }
     }
     /// <summary>
     /// Не посещенная вершина
@@ -41,32 +38,17 @@ public class Vertex : MonoBehaviour {
     /// <param name="newEdge">Ребро</param>
     public void AddEdge(Edge newEdge)
     {
-        _edges.Add(newEdge);
+        edges.Add(newEdge);
     }
 
     /// <summary>
     /// Добавить ребро
     /// </summary>
-    /// <param name="vertex">Вершина</param>
+    /// <param name="firstVertex">Первая вершина</param>
+    /// <param name="secondVertex">Вторая вершина</param>
     /// <param name="edgeWeight">Вес</param>
-    public void AddEdge(Vertex vertex, int edgeWeight)
+    public void AddEdge(Vertex firstVertex, Vertex secondVertex, int edgeWeight)
     {
-        AddEdge(new Edge(vertex, edgeWeight));
-    }
-
-    /// <summary>
-    /// Нарисовать ребра и подписать их веса
-    /// </summary>
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.green;
-        if (_edges == null)
-            return;
-        foreach (var edge in _edges) {
-            if (edge.connectedVertex == null)
-                continue;
-            Gizmos.DrawLine(transform.position, edge.connectedVertex.transform.position);
-            Handles.Label((transform.position + edge.connectedVertex.transform.position) / 2, edge.EdgeWeight.ToString());
-        }
+        AddEdge(new Edge(firstVertex, secondVertex, edgeWeight));
     }
 }

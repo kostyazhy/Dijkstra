@@ -1,19 +1,42 @@
-﻿using System.Collections;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class DijkstraAlgorithm : MonoBehaviour {
-
+    
+    /// <summary>
+    /// Граф
+    /// </summary>
     Graph _graph;
 
+    /// <summary>
+    /// Стартовая вершина
+    /// </summary>
     public Vertex startVertex;
+
+    /// <summary>
+    /// Конечная вершина
+    /// </summary>
     public Vertex endVertex;
+
+    /// <summary>
+    /// Список вершин кратчайшего пути
+    /// </summary>
+    public List<Vertex> shortestPath;
+
+    /// <summary>
+    /// Ссылка на класс рисующий ребра графа
+    /// </summary>
+    public DrowLine line;
 
     public void Start()
     {
+        if(startVertex == null || endVertex == null) {
+            Debug.LogError("Start vertex or end vertex == null");
+            return;
+        }
         _graph = FindObjectOfType<Graph>();
-        FindShortestPath(startVertex, endVertex);
+        shortestPath = FindShortestPath(startVertex, endVertex);
+        line.SelectPath(shortestPath);
     }
 
     /// <summary>
@@ -25,13 +48,11 @@ public class DijkstraAlgorithm : MonoBehaviour {
         var minValue = int.MaxValue;
         Vertex minVertex = null;
         foreach (var vertex in _graph.Vertices) {
-            //Debug.Log("find minVertex " + vertex.name + " " + vertex.IsUnvisited + " " + vertex.EdgesWeightSum);
             if (vertex.IsUnvisited && vertex.EdgesWeightSum < minValue) {
                 minVertex = vertex;
                 minValue = vertex.EdgesWeightSum;
             }
         }
-        Debug.Log("minVertex " + minVertex);
         return minVertex;
     }
 
@@ -41,9 +62,8 @@ public class DijkstraAlgorithm : MonoBehaviour {
     /// <param name="startVertex">Стартовая вершина</param>
     /// <param name="finishVertex">Финишная вершина</param>
     /// <returns>Кратчайший путь</returns>
-    public string FindShortestPath(Vertex startVertex, Vertex finishVertex)
+    public List<Vertex> FindShortestPath(Vertex startVertex, Vertex finishVertex)
     {
-
         startVertex.EdgesWeightSum = 0;
         while (true) {
             var current = FindUnvisitedVertexWithMinSum();
@@ -65,7 +85,7 @@ public class DijkstraAlgorithm : MonoBehaviour {
     {
         vertex.IsUnvisited = false;
         foreach (var edge in vertex.Edges) {
-            var nextInfo = edge.connectedVertex;
+            var nextInfo = edge.secondVertex;
             var sum = vertex.EdgesWeightSum + edge.EdgeWeight;
             if (sum < nextInfo.EdgesWeightSum) {
                 nextInfo.EdgesWeightSum = sum;
@@ -80,8 +100,11 @@ public class DijkstraAlgorithm : MonoBehaviour {
     /// <param name="startVertex">Начальная вершина</param>
     /// <param name="endVertex">Конечная вершина</param>
     /// <returns>Путь</returns>
-    string GetPath(Vertex startVertex, Vertex endVertex)
+    List<Vertex> GetPath(Vertex startVertex, Vertex endVertex)
     {
+        List<Vertex> shortestPath = new List<Vertex> {
+            endVertex
+        };
         string path = endVertex.name;
         while (startVertex != endVertex) {
             endVertex = endVertex.PreviousVertex;
@@ -89,11 +112,11 @@ public class DijkstraAlgorithm : MonoBehaviour {
                 Debug.Log("Path no access");
                 return null;
             }
-
+            shortestPath.Insert(0, endVertex);
             path = endVertex.name + path;
         }
         Debug.Log("Path: " + path);
-        return path;
-    }
 
+        return shortestPath;
+    }
 }

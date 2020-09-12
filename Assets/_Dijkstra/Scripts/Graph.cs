@@ -1,17 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
 /// Граф
 /// </summary>
 public class Graph : MonoBehaviour {
-
     /// <summary>
     /// Список вершин графа
     /// </summary>
     public List<Vertex> Vertices { get; set; }
-
+    /// <summary>
+    /// Список ребер графа
+    /// </summary>
+    [Header("Set Graph")]
+    public List<Edge> edges;
     /// <summary>
     /// Находит вершины на сцене и переноситься в список
     /// </summary>
@@ -20,6 +22,19 @@ public class Graph : MonoBehaviour {
         Vertices = new List<Vertex>();
         foreach (var vertex in vertices) {
             Vertices.Add(vertex);
+        }
+        CreateEdges();
+    }
+
+    /// <summary>
+    /// Создание ребер для вершин
+    /// </summary>
+    void CreateEdges()
+    {
+        if (edges == null)
+            return;
+        foreach(var edge in edges) {
+            AddEdge(edge.firstVertex, edge.secondVertex, edge.EdgeWeight);
         }
     }
 
@@ -52,13 +67,13 @@ public class Graph : MonoBehaviour {
     /// Добавление ребра
     /// </summary>
     /// <param name="firstVertex">Первая вершина</param>
-    /// <param name="secondVertex">Конечная вершина</param>
+    /// <param name="secondVertex">Вторая вершина</param>
     /// <param name="weight">Вес ребра соединяющего вершины</param>
     public void AddEdge(Vertex firstVertex, Vertex secondVertex, int weight)
     {
         if (secondVertex != null && firstVertex != null) {
-            firstVertex.AddEdge(secondVertex, weight);
-            secondVertex.AddEdge(firstVertex, weight);
+            firstVertex.AddEdge(firstVertex, secondVertex, weight);
+            secondVertex.AddEdge(secondVertex, firstVertex, weight);
         }
     }
 }

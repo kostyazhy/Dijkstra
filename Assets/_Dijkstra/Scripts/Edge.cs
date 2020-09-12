@@ -1,19 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [System.Serializable]
-public class Edge
-{
+public class Edge {
     /// <summary>
-    /// Связанная вершина
+    /// Первая вершина ребра
     /// </summary>
-    public Vertex connectedVertex;
+    public Vertex firstVertex;
+    /// <summary>
+    /// Вторая вершина ребра
+    /// </summary>
+    public Vertex secondVertex;
 
     /// <summary>
     /// Вес ребра
     /// </summary>
-    [SerializeField]
+    [SerializeField, Range(0, 15)]
     private int _edgeWeight;
     public int EdgeWeight
     {
@@ -24,11 +25,13 @@ public class Edge
     /// <summary>
     /// Конструктор
     /// </summary>
-    /// <param name="connectedVertex">Связанная вершина</param>
+    /// <param name="firstVertex">Первая вершина</param>
+    /// <param name="secondVertex">Вторая вершина</param>
     /// <param name="weight">Вес ребра</param>
-    public Edge(Vertex connectedVertex, int weight)
+    public Edge(Vertex firstVertex, Vertex secondVertex, int weight)
     {
-        this.connectedVertex = connectedVertex;
+        this.firstVertex = firstVertex;
+        this.secondVertex = secondVertex;
         _edgeWeight = weight;
     }
 }
