@@ -6,10 +6,10 @@ public class Vertex : MonoBehaviour {
     /// Список ребер
     /// </summary>
     [SerializeField]
-    private List<Edge> edges;
+    private List<Edge> _edges;
     public List<Edge> Edges {
-        get { return edges; }
-        set { Edges = edges; }
+        get { return _edges; }
+        set { Edges = _edges; }
     }
     /// <summary>
     /// Не посещенная вершина
@@ -38,7 +38,7 @@ public class Vertex : MonoBehaviour {
     /// <param name="newEdge">Ребро</param>
     public void AddEdge(Edge newEdge)
     {
-        edges.Add(newEdge);
+        _edges.Add(newEdge);
     }
 
     /// <summary>

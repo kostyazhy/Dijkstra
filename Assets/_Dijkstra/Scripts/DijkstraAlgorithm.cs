@@ -2,7 +2,6 @@
 using UnityEngine;
 
 public class DijkstraAlgorithm : MonoBehaviour {
-    
     /// <summary>
     /// Граф
     /// </summary>
@@ -26,7 +25,8 @@ public class DijkstraAlgorithm : MonoBehaviour {
     /// <summary>
     /// Ссылка на класс рисующий ребра графа
     /// </summary>
-    public DrowLine line;
+    [SerializeField]
+    private DrowLine line;
 
     public void Start()
     {
