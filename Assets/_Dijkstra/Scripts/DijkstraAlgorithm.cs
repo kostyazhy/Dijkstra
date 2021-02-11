@@ -26,7 +26,7 @@ public class DijkstraAlgorithm : MonoBehaviour {
     /// Ссылка на класс рисующий ребра графа
     /// </summary>
     [SerializeField]
-    private DrowLine line;
+    private DrawLine line;
 
     public void Start()
     {

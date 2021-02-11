@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEditor;
 
 [ExecuteInEditMode]
-public class DrowLine : MonoBehaviour {
+public class DrawLine : MonoBehaviour {
     /// <summary>
     /// Материал для ребер
     /// </summary>
